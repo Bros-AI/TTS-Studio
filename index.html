@@ -2140,7 +2140,6 @@ The AI will automatically choose the best voices and generate the script for you
                 showStatus('success', 'Audio generated successfully!');
 
                 // Update stats
-                const model = document.getElementById('modelSelect').value;
                 const isFree = PRICING[model].free;
                 const totalCostText = document.getElementById('totalCost').textContent;
                 const totalCost = isFree ? 0 : parseFloat(totalCostText.replace('$', '')) || 0;
@@ -2186,8 +2185,11 @@ SpeakerName2: dialogue
 
 Choose voices that match the content's tone and emotion.`;
 
+            // Get selected AI model from the form
+            const aiModel = document.getElementById('aiModelSelect').value || state.contentModel || 'gemini-2.0-flash';
+
             const response = await fetch(
-                `https://generativelanguage.googleapis.com/v1beta/models/${state.contentModel}:generateContent?key=${state.apiKey}`,
+                `https://generativelanguage.googleapis.com/v1beta/models/${aiModel}:generateContent?key=${state.apiKey}`,
                 {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
